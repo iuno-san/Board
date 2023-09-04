@@ -15,5 +15,10 @@ namespace Board.Entities
         public DbSet<Comment> comments { get; set; }
         public DbSet<Address> addresses { get; set; }
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            
+        }
+
     }
 }
