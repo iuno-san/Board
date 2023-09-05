@@ -6,6 +6,7 @@ namespace Board.Entities
 {
     public class WorkItem
     {
+        //Work-item
         public int Id { get; set; }
         public string State { get; set; }
         public string Area { get; set; }
@@ -19,12 +20,12 @@ namespace Board.Entities
 
 
         //Issue
-        public Decimal Efford { get; set; }
+        public decimal Efford { get; set; }
 
 
         //Task
         public string Activity { get; set; }
-        public string RemainingWork { get; set; }
+        public decimal RemainingWork { get; set; }
 
 
         public string Type { get; set; }
