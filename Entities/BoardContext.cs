@@ -29,6 +29,12 @@ namespace Board.Entities
                 eb.Property(wi => wi.RemainingWork).HasPrecision(13,3);
 
             });
+
+            modelBuilder.Entity<Comment>(eb =>
+            {
+                eb.Property(wi => wi.CreatedDate).HasDefaultValueSql("getutcdate()");
+                eb.Property(wi => wi.UpdatedDate).ValueGeneratedOnUpdate();
+            });
         }
 
     }
