@@ -28,6 +28,14 @@ namespace Board.Entities
                 eb.Property(wi => wi.Activity).HasMaxLength(100);
                 eb.Property(wi => wi.RemainingWork).HasPrecision(13,3);
 
+                eb.HasMany(w => w.comments)
+                .WithOne(c => c.WorkItem)
+                .HasForeignKey(c => c.WorkItemId);
+
+                eb.HasOne(w => w.Author)
+                .WithMany(u => u.WorkItems)
+                .HasForeignKey(w => w.AuthorId);
+
             });
 
             modelBuilder.Entity<Comment>(eb =>
