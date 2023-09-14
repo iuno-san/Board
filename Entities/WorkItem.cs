@@ -33,5 +33,7 @@ namespace Board.Entities
         public User Author { get; set; }
         public Guid AuthorId { get; set; }
 
+        public List<Tag> Tags { get; set; }
+
     }
 }
