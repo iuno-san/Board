@@ -10,6 +10,9 @@ namespace Board.Entities
         }
 
         public DbSet<WorkItem> workItems { get; set; }
+        public DbSet<Epic> epics { get; set; }
+        public DbSet<Issue> issues { get; set; }
+        public DbSet<Task> tasks { get; set; }
         public DbSet<User> users { get; set; }
         public DbSet<Tag> tags { get; set; }
         public DbSet<Comment> comments { get; set; }
@@ -24,6 +27,21 @@ namespace Board.Entities
                 .IsRequired()
                 .HasMaxLength(50);
 
+            modelBuilder.Entity<Epic>()
+                .Property(wi => wi.EndDate)
+                .HasPrecision(3);
+
+            modelBuilder.Entity<Issue>()
+                .Property(wi => wi.Efford)
+                .HasColumnType("decimal(5,2)");
+
+            modelBuilder.Entity<Task>()
+                .Property(wi => wi.Activity)
+                .HasMaxLength(100);
+
+            modelBuilder.Entity<Task>()
+                .Property(wi => wi.RemainingWork)
+                .HasPrecision(13, 3);
 
             modelBuilder.Entity<WorkItem>(eb =>
             {
@@ -33,10 +51,6 @@ namespace Board.Entities
 
                 eb.Property(wi => wi.Area).HasColumnType("varchar200");
                 eb.Property(wi => wi.IterationPath).HasColumnName("Iteration_Path");
-                eb.Property(wi => wi.Efford).HasColumnType("decimal(5,2)");
-                eb.Property(wi => wi.EndDate).HasPrecision(3);
-                eb.Property(wi => wi.Activity).HasMaxLength(100);
-                eb.Property(wi => wi.RemainingWork).HasPrecision(13,3);
 
                 eb.HasMany(w => w.comments)
                 .WithOne(c => c.WorkItem)

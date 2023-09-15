@@ -4,6 +4,27 @@ using System.Data;
 
 namespace Board.Entities
 {
+
+    public class Epic 
+    {
+        //Epic
+        public DateTime? StartDate { get; set; }
+        public DateTime? EndDate { get; set; }
+    }
+
+    public class Issue
+    {
+        //Issue
+        public decimal Efford { get; set; }
+    }
+
+    public class Task
+    {
+        //Task
+        public string Activity { get; set; }
+        public decimal RemainingWork { get; set; }
+    }
+
     public class WorkItem
     {
         //Work-item
@@ -11,20 +32,6 @@ namespace Board.Entities
         public string Area { get; set; }
         public string IterationPath { get; set; }
         public int Priority { get; set; }
-
-
-        //Epic
-        public DateTime? StartDate { get; set; }
-        public DateTime? EndDate { get; set; }
-
-
-        //Issue
-        public decimal Efford { get; set; }
-
-
-        //Task
-        public string Activity { get; set; }
-        public decimal RemainingWork { get; set; }
 
         public string Type { get; set; }
 
