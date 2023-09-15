@@ -15,12 +15,22 @@ namespace Board.Entities
         public DbSet<Comment> comments { get; set; }
         public DbSet<Address> addresses { get; set; }
 
+        public DbSet<WorkItemState> workItemStates { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<WorkItemState>()
+                .Property(s => s.Value)
+                .IsRequired()
+                .HasMaxLength(50);
+
 
             modelBuilder.Entity<WorkItem>(eb =>
             {
-                eb.Property(wi => wi.State).IsRequired();
+                eb.HasOne(w => w.State)
+                .WithMany()
+                .HasForeignKey(w => w.StateId);
+
                 eb.Property(wi => wi.Area).HasColumnType("varchar200");
                 eb.Property(wi => wi.IterationPath).HasColumnName("Iteration_Path");
                 eb.Property(wi => wi.Efford).HasColumnType("decimal(5,2)");
@@ -56,7 +66,7 @@ namespace Board.Entities
 
             });
 
-            modelBuilder.Entity<Comment>(eb =>
+            modelBuilder.Entity<Comment>(eb => 
             {
                 eb.Property(wi => wi.CreatedDate).HasDefaultValueSql("getutcdate()");
                 eb.Property(wi => wi.UpdatedDate).ValueGeneratedOnUpdate();
@@ -66,6 +76,7 @@ namespace Board.Entities
                 .HasOne(u => u.Address)
                 .WithOne(a => a.User)
                 .HasForeignKey<Address>(a => a.UserId);
+                
         }
 
     }
