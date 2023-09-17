@@ -1,5 +1,5 @@
 # Project Road 🌌
-C# .NET Entity Framework Core Practice project
+C# .NET Entity Framework Core Practice API project
 <br><br>
 ### Commit history 🔥
 
