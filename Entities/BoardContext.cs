@@ -17,7 +17,6 @@ namespace Board.Entities
         public DbSet<Tag> tags { get; set; }
         public DbSet<Comment> comments { get; set; }
         public DbSet<Address> addresses { get; set; }
-
         public DbSet<WorkItemState> workItemStates { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -49,9 +48,10 @@ namespace Board.Entities
                 .WithMany()
                 .HasForeignKey(w => w.StateId);
 
-                eb.Property(wi => wi.Area).HasColumnType("varchar200");
+                eb.Property(x => x.Area).HasColumnType("varchar(200)");
                 eb.Property(wi => wi.IterationPath).HasColumnName("Iteration_Path");
 
+                eb.Property(wi => wi.Priority).HasDefaultValue(1);
                 eb.HasMany(w => w.comments)
                 .WithOne(c => c.WorkItem)
                 .HasForeignKey(c => c.WorkItemId);
@@ -71,12 +71,12 @@ namespace Board.Entities
                     .WithMany()
                     .HasForeignKey(wit => wit.workItemId),
 
-                    wit => 
+                    wit =>
                     {
-                        wit.HasOne(x => new { x.TagId, x.workItemId });
+                        wit.HasKey(x => new { x.TagId, x.workItemId });
                         wit.Property(x => x.PublicationDate).HasDefaultValueSql("getutcdate()");
                     });
-               
+
 
             });
 
