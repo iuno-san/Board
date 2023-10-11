@@ -30,7 +30,7 @@ if (pendingMigrations.Any())
     dbContext.Database.Migrate();
 }
 
-var users = dbContext.users.ToList();
+var users = dbContext.Users.ToList();
 if (!users.Any())
 {
     var user1 = new User()
@@ -48,7 +48,7 @@ if (!users.Any())
 
     };
 
-    dbContext.users.AddRange(user1, user2);
+    dbContext.Users.AddRange(user1, user2);
 
     dbContext.SaveChanges();
 }

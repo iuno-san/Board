@@ -9,15 +9,15 @@ namespace Board.Entities
             
         }
 
-        public DbSet<WorkItem> workItems { get; set; }
-        public DbSet<Epic> epics { get; set; }
-        public DbSet<Issue> issues { get; set; }
-        public DbSet<Task> tasks { get; set; }
-        public DbSet<User> users { get; set; }
-        public DbSet<Tag> tags { get; set; }
+        public DbSet<WorkItem> WorkItems { get; set; }
+        public DbSet<Epic> Epics { get; set; }
+        public DbSet<Issue> Issues { get; set; }
+        public DbSet<Task> Tasks { get; set; }
+        public DbSet<User> Users { get; set; }
+        public DbSet<Tag> Tags { get; set; }
         public DbSet<Comment> comments { get; set; }
-        public DbSet<Address> addresses { get; set; }
-        public DbSet<WorkItemState> workItemStates { get; set; }
+        public DbSet<Address> Addresses { get; set; }
+        public DbSet<WorkItemState> WorkItemStates { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -39,7 +39,7 @@ namespace Board.Entities
                 .HasMaxLength(100);
 
             modelBuilder.Entity<Task>()
-                .Property(wi => wi.RemainingWork)
+                .Property(wi => wi.RemaningWork)
                 .HasPrecision(13, 3);
 
             modelBuilder.Entity<WorkItem>(eb =>
@@ -67,13 +67,13 @@ namespace Board.Entities
                     .WithMany()
                     .HasForeignKey(wit => wit.TagId),
 
-                    w => w.HasOne(wit => wit.workItem)
+                    w => w.HasOne(wit => wit.WorkItem)
                     .WithMany()
-                    .HasForeignKey(wit => wit.workItemId),
+                    .HasForeignKey(wit => wit.WorkItemId),
 
                     wit =>
                     {
-                        wit.HasKey(x => new { x.TagId, x.workItemId });
+                        wit.HasKey(x => new { x.TagId, x.WorkItemId });
                         wit.Property(x => x.PublicationDate).HasDefaultValueSql("getutcdate()");
                     });
 

@@ -1,4 +1,4 @@
-﻿// Ignore Spelling: Efford
+﻿// Ignore Spelling: Efford Remaning
 
 using System.Data;
 
@@ -22,7 +22,7 @@ namespace Board.Entities
     {
         //Task
         public string Activity { get; set; }
-        public decimal RemainingWork { get; set; }
+        public decimal RemaningWork { get; set; }
     }
 
     public abstract class WorkItem
