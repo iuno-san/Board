@@ -54,5 +54,14 @@ if (!users.Any())
 }
 
 
+app.MapGet("data", async (BoardContext db) =>
+{ 
+    var Top5NewestComments = await db.comments
+    .Take(5)
+    .ToListAsync();
+
+    return Top5NewestComments;
+});
+
 app.Run();
 
