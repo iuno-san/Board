@@ -55,12 +55,40 @@ if (!users.Any())
 
 
 app.MapGet("data", async (BoardContext db) =>
-{ 
-    var Top5NewestComments = await db.comments
-    .Take(5)
+{
+    var OnHoldEpic = await db.Epics
+    .Where(w => w.StateId == 4)
+    .OrderBy(w => w.Priority)
     .ToListAsync();
 
-    return Top5NewestComments;
+    return OnHoldEpic;
+
+    /*
+     var authorsCommentCounts = await db.Comments
+    .GroupBy(c => c.AuthorId)
+    .Select(g => new { g.Key, Count = g.Count()})
+    .ToListAsync();
+
+    var topAuthor = authorsCommentCounts
+        .First(a => a.Count == authorsCommentCounts.Max(acc => acc.Count));
+
+    var userDetails = db.Users.First(u => u.Id == topAuthor.Key);
+
+    return new { userDetails, commentCount = topAuthor.Count };
+     */
+});
+
+app.MapPost("Update", async(BoardContext db) =>
+{
+    Epic epic = await db.Epics.FirstAsync(epic => epic.Id == 1);
+    
+    epic.Priority = 1;
+    epic.StartDate = DateTime.Now;
+    epic.Area = "Update Area";
+
+    await db.SaveChangesAsync();
+
+    return epic;
 });
 
 app.Run();
