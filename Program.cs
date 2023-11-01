@@ -1,5 +1,7 @@
 using Board.Entities;
+using Microsoft.AspNetCore.Http.Json;
 using Microsoft.EntityFrameworkCore;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -7,6 +9,10 @@ var builder = WebApplication.CreateBuilder(args);
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.Configure<JsonOptions>(options =>
+{
+    options.SerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+});
 
 builder.Services.AddDbContext<BoardContext>(
     option => option.UseSqlServer(builder.Configuration.GetConnectionString("BoardConnectionString"))
@@ -56,12 +62,14 @@ if (!users.Any())
 
 app.MapGet("data", async (BoardContext db) =>
 {
-    var OnHoldEpic = await db.Epics
-    .Where(w => w.StateId == 4)
-    .OrderBy(w => w.Priority)
-    .ToListAsync();
+    var user = await db.Users
+    .Include(u => u.comments).ThenInclude(c => c.WorkItem)
+    .Include(u => u.Address)
+    .FirstAsync(u => u.Id == Guid.Parse("68366dbe-0809-490f-cc1d-08da10ab0e61"));
 
-    return OnHoldEpic;
+    /*var userComments = await db.comments.Where(c => c.AuthorId == user.Id).ToListAsync();*/
+
+    return user;
 
     /*
      var authorsCommentCounts = await db.Comments
